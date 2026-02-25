@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './database/dbConfig.js';
+import userAuthRouter from './views/userAuthRouter.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -13,16 +14,21 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Port configuration
-const PORT = process.env.PORT || 5000;
-
 // Connect to MongoDB
 connectDB();
 
 // Basic route
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
     res.send('Welcome to the User Authentication API with Bearer Token!');
 });
+
+//custom routes
+
+app.use('/api/auth', userAuthRouter);
+
+
+// Port configuration
+const PORT = process.env.PORT || 3000;
 
 // Start the server
 app.listen(PORT, () => {
